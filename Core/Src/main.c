@@ -20,28 +20,17 @@
 #include "main.h"
 
 /* Private includes ----------------------------------------------------------*/
-/* USER CODE BEGIN Includes */
-
-/* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
-/* USER CODE BEGIN PTD */
-
-/* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
-/* USER CODE BEGIN PD */
-/* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
-/* USER CODE BEGIN PM */
 
 //#define MASTER_BOARD
 #define I2C_ADDRESS        0x3E
 #define MASTER_REQ_READ    0x12
 #define MASTER_REQ_WRITE   0x34
-
-/* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
 I2C_HandleTypeDef hi2c1;
@@ -53,7 +42,6 @@ DMA_HandleTypeDef hdma_spi2_tx;
 
 UART_HandleTypeDef huart2;
 
-/* USER CODE BEGIN PV */
 #define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
 
 PUTCHAR_PROTOTYPE
@@ -61,7 +49,6 @@ PUTCHAR_PROTOTYPE
 	HAL_UART_Transmit(&huart2, (uint8_t *)&ch, 1, 0xFFFF);				//Use USART2
 	return ch;
 }
-/* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
@@ -76,7 +63,7 @@ static void MX_I2C2_Init(void);
 /* Private user code ---------------------------------------------------------*/
 
 
-uint8_t aTxBuffer[] = "I2C Master Transmit data to slave";
+uint8_t aTxBuffer[] = "I2C Master Transmit data to slave, 1234567890 abcdefghijklmnopqrstuvwxyz";
 uint8_t aRxBuffer[sizeof(aTxBuffer)];
 
 /**
@@ -101,6 +88,7 @@ int main(void)
 
 
   printf("HW init OK\r\n");
+  printf("size TX: %d \r\n", sizeof(aTxBuffer));
 
   /* Infinite loop */
   while (1)
@@ -139,16 +127,16 @@ void SystemClock_Config(void)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
-  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+  RCC_OscInitStruct.OscillatorType 		= RCC_OSCILLATORTYPE_HSI;
+  RCC_OscInitStruct.HSIState 			= RCC_HSI_ON;
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
-  RCC_OscInitStruct.PLL.PLLM = 16;
-  RCC_OscInitStruct.PLL.PLLN = 336;
-  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV4;
-  RCC_OscInitStruct.PLL.PLLQ = 2;
-  RCC_OscInitStruct.PLL.PLLR = 2;
+  RCC_OscInitStruct.PLL.PLLState 		= RCC_PLL_ON;
+  RCC_OscInitStruct.PLL.PLLSource 		= RCC_PLLSOURCE_HSI;
+  RCC_OscInitStruct.PLL.PLLM 			= 16;
+  RCC_OscInitStruct.PLL.PLLN 			= 336;
+  RCC_OscInitStruct.PLL.PLLP 			= RCC_PLLP_DIV4;
+  RCC_OscInitStruct.PLL.PLLQ 			= 2;
+  RCC_OscInitStruct.PLL.PLLR 			= 2;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
     Error_Handler();
@@ -326,13 +314,7 @@ void HAL_I2C_SlaveRxCpltCallback(I2C_HandleTypeDef *hi2c)
 
 
 
-
-
-
-
-
-
-
+//====================================================================================================================//
 
 
 
@@ -343,35 +325,25 @@ void HAL_I2C_SlaveRxCpltCallback(I2C_HandleTypeDef *hi2c)
   */
 static void MX_SPI2_Init(void)
 {
-
-  /* USER CODE BEGIN SPI2_Init 0 */
-
-  /* USER CODE END SPI2_Init 0 */
-
-  /* USER CODE BEGIN SPI2_Init 1 */
-
-  /* USER CODE END SPI2_Init 1 */
   /* SPI2 parameter configuration*/
-  hspi2.Instance = SPI2;
-  hspi2.Init.Mode = SPI_MODE_SLAVE;
-  hspi2.Init.Direction = SPI_DIRECTION_2LINES;
-  hspi2.Init.DataSize = SPI_DATASIZE_8BIT;
-  hspi2.Init.CLKPolarity = SPI_POLARITY_LOW;
-  hspi2.Init.CLKPhase = SPI_PHASE_1EDGE;
-  hspi2.Init.NSS = SPI_NSS_SOFT;
-  hspi2.Init.FirstBit = SPI_FIRSTBIT_MSB;
-  hspi2.Init.TIMode = SPI_TIMODE_DISABLE;
-  hspi2.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
-  hspi2.Init.CRCPolynomial = 10;
+  hspi2.Instance 				= SPI2;
+  hspi2.Init.Mode 				= SPI_MODE_SLAVE;
+  hspi2.Init.Direction 			= SPI_DIRECTION_2LINES;
+  hspi2.Init.DataSize 			= SPI_DATASIZE_8BIT;
+  hspi2.Init.CLKPolarity 		= SPI_POLARITY_LOW;
+  hspi2.Init.CLKPhase 			= SPI_PHASE_1EDGE;
+  hspi2.Init.NSS 				= SPI_NSS_SOFT;
+  hspi2.Init.FirstBit 			= SPI_FIRSTBIT_MSB;
+  hspi2.Init.TIMode 			= SPI_TIMODE_DISABLE;
+  hspi2.Init.CRCCalculation 	= SPI_CRCCALCULATION_DISABLE;
+  hspi2.Init.CRCPolynomial 		= 10;
   if (HAL_SPI_Init(&hspi2) != HAL_OK)
   {
     Error_Handler();
   }
-  /* USER CODE BEGIN SPI2_Init 2 */
-
-  /* USER CODE END SPI2_Init 2 */
 
 }
+
 
 /**
   * @brief USART2 Initialization Function
@@ -380,29 +352,18 @@ static void MX_SPI2_Init(void)
   */
 static void MX_USART2_UART_Init(void)
 {
-
-  /* USER CODE BEGIN USART2_Init 0 */
-
-  /* USER CODE END USART2_Init 0 */
-
-  /* USER CODE BEGIN USART2_Init 1 */
-
-  /* USER CODE END USART2_Init 1 */
-  huart2.Instance = USART2;
-  huart2.Init.BaudRate = 115200;
-  huart2.Init.WordLength = UART_WORDLENGTH_8B;
-  huart2.Init.StopBits = UART_STOPBITS_1;
-  huart2.Init.Parity = UART_PARITY_NONE;
-  huart2.Init.Mode = UART_MODE_TX_RX;
-  huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-  huart2.Init.OverSampling = UART_OVERSAMPLING_16;
+  huart2.Instance 				= USART2;
+  huart2.Init.BaudRate 			= 115200;
+  huart2.Init.WordLength 		= UART_WORDLENGTH_8B;
+  huart2.Init.StopBits 			= UART_STOPBITS_1;
+  huart2.Init.Parity 			= UART_PARITY_NONE;
+  huart2.Init.Mode 				= UART_MODE_TX_RX;
+  huart2.Init.HwFlowCtl 		= UART_HWCONTROL_NONE;
+  huart2.Init.OverSampling 		= UART_OVERSAMPLING_16;
   if (HAL_UART_Init(&huart2) != HAL_OK)
   {
     Error_Handler();
   }
-  /* USER CODE BEGIN USART2_Init 2 */
-
-  /* USER CODE END USART2_Init 2 */
 
 }
 
@@ -422,8 +383,9 @@ static void MX_DMA_Init(void)
   /* DMA1_Stream4_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(DMA1_Stream4_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA1_Stream4_IRQn);
-
 }
+
+
 
 /**
   * @brief GPIO Initialization Function
@@ -444,23 +406,20 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : B1_Pin */
-  GPIO_InitStruct.Pin = B1_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Pin 		= B1_Pin;
+  GPIO_InitStruct.Mode 		= GPIO_MODE_IT_FALLING;
+  GPIO_InitStruct.Pull 		= GPIO_NOPULL;
   HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : LD2_Pin */
-  GPIO_InitStruct.Pin = LD2_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  GPIO_InitStruct.Pin 		= LD2_Pin;
+  GPIO_InitStruct.Mode 		= GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull 		= GPIO_NOPULL;
+  GPIO_InitStruct.Speed 	= GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
 
 }
 
-/* USER CODE BEGIN 4 */
-
-/* USER CODE END 4 */
 
 /**
   * @brief  This function is executed in case of error occurrence.
@@ -468,8 +427,6 @@ static void MX_GPIO_Init(void)
   */
 void Error_Handler(void)
 {
-  /* USER CODE BEGIN Error_Handler_Debug */
-  /* User can add his own implementation to report the HAL error return state */
 	printf("error handler\r\n");
   __disable_irq();
   while (1)
